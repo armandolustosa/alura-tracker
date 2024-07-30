@@ -28,7 +28,10 @@
                 <i class="fas fa-pencil-alt"></i>
               </span>
             </router-link>
-            <button class="button ml-2 is-danger" @click="excluirTarefa(projeto.id)">
+            <button
+              class="button ml-2 is-danger"
+              @click="excluirTarefa(projeto.id)"
+            >
               <span class="icon is-small">
                 <i class="fas fa-trash"></i>
               </span>
@@ -54,6 +57,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key);
+    store.dispatch("OBTER_PROJETOS");
     return {
       store,
       projetos: computed(() => store.state.projetos),

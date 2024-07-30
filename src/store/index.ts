@@ -2,6 +2,7 @@ import IProjeto from "@/interfaces/IProjeto";
 import INotificacao from "@/interfaces/INotificacao";
 import { InjectionKey } from "vue";
 import { Store, createStore } from "vuex";
+import http from "@/http";
 
 interface Estado {
   projetos: IProjeto[];
@@ -37,6 +38,9 @@ export const store = createStore<Estado>({
         state.projetos.splice(index, 1);
       }
     },
+    DEFINIR_PROJETO(state, projetos: IProjeto[]) {
+      state.projetos = projetos;
+    },
     NOTIFICACAO(state, novaNotificacao: INotificacao) {
       novaNotificacao.id = new Date().getTime();
       state.notificacoes.push(novaNotificacao);
@@ -48,6 +52,10 @@ export const store = createStore<Estado>({
       }, 3000);
     },
   },
-  actions: {},
+  actions: {
+    OBTER_PROJETOS({ commit }) {
+      http.get('projetos').then((resposta) => commit('DEFINIR_PROJETO', resposta.data));
+    },
+  },
   modules: {},
 });
