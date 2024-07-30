@@ -45,22 +45,27 @@ export default defineComponent({
   methods: {
     salvar() {
       if (this.id) {
-        this.store.commit("ALTERAR_PROJETO", {
-          id: this.id,
-          nome: this.nomeDoProjeto,
-        });
+        this.store
+          .dispatch("ALTERAR_PROJETO", {
+            id: this.id,
+            nome: this.nomeDoProjeto,
+          })
+          .then(() => this.lidarSucesso());
       } else {
-        this.store.commit("ADICIONAR_PROJETO", this.nomeDoProjeto);
+        this.store
+          .dispatch("CADASTRAR_PROJETO", this.nomeDoProjeto)
+          .then(() => this.lidarSucesso());
       }
-      this.nomeDoProjeto = "";
+    },
+    lidarSucesso() {
       this.notificar(
         TipoNotificacao.SUCESSO,
         "Exelente!",
         "O projeto foi cadastrado com sucesso!"
-      );
-      this.$router.push("/projetos");
+      ),
+        this.$router.push("/projetos");
+      this.nomeDoProjeto = "";
     },
-    
   },
   setup() {
     const store = useStore(key);

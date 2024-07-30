@@ -54,7 +54,21 @@ export const store = createStore<Estado>({
   },
   actions: {
     OBTER_PROJETOS({ commit }) {
-      http.get('projetos').then((resposta) => commit('DEFINIR_PROJETO', resposta.data));
+      http
+        .get("projetos")
+        .then((resposta) => commit("DEFINIR_PROJETO", resposta.data));
+    },
+    CADASTRAR_PROJETO(context, nomeDoProjeto: string) {
+      return http.post("projetos", {
+        nome: nomeDoProjeto,
+      });
+    },
+    ALTERAR_PROJETO(context, projeto: IProjeto) {
+      return http.put(`projetos/${projeto.id}`, projeto);
+    },
+    EXCLUIR_PROJETO({  commit }, id: string) {
+      return http.delete(`projetos/${id}`)
+      .then(() => commit('EXCLUIR_PROJETO', id));
     },
   },
   modules: {},

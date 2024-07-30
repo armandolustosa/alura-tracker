@@ -52,7 +52,7 @@ export default defineComponent({
   name: "ListaView",
   methods: {
     excluirTarefa(id: string) {
-      this.store.commit("EXCLUIR_PROJETO", id);
+      this.store.dispatch("EXCLUIR_PROJETO", id);
     },
   },
   setup() {
