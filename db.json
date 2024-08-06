@@ -1,3 +1,28 @@
 {
-  "projetos": []
+  "projetos": [
+    {
+      "id": "e77e",
+      "nome": "Estudando Programação"
+    }
+  ],
+  "tarefas": [
+    {
+      "id": 1,
+      "duracaoEmSegundos": 120,
+      "descricao": "Configurações Gerais",
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Vue.js"
+      }
+    },
+    {
+      "id": "4ba3",
+      "descricao": "PHP",
+      "duracaoEmSegundos": 5,
+      "projeto": {
+        "id": "e77e",
+        "nome": "Estudando Programação"
+      }
+    }
+  ]
 }

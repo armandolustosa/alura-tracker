@@ -1,6 +1,6 @@
 <template>
   <BoxComp>
-    <div class="columns">
+    <div class="columns clicavel" @click="tarefaSelecionada">
       <div class="column is-4">
         <!-- Exibe a descrição da tarefa, ou uma mensagem padrão se não houver descrição -->
         {{ tarefa.descricao || "Tarefa sem descrição" }}
@@ -24,9 +24,15 @@ import BoxComp from "./BoxComp.vue";
 
 export default defineComponent({
   name: "TarefaComp",
+  emits: ['tarefaClicada'],
   components: {
     CronometroComp,
     BoxComp,
+  },
+  methods: {
+    tarefaSelecionada () {
+      this.$emit('tarefaClicada', this.tarefa)
+    }
   },
   props: {
     // Propriedade para receber a tarefa como objeto
@@ -34,3 +40,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.clicavel:hover {
+  cursor: pointer;
+}
+</style>
