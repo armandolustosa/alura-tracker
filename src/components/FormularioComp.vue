@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, EmitsOptions, ref } from "vue";
 import TemporizadorComp from "./TemporizadorComp.vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
@@ -51,30 +51,35 @@ export default defineComponent({
     TemporizadorComp,
   },
   emits: ["aoSalvarTarefa"], // Define eventos emitidos pelo componente
-  data() {
-    return {
-      descricao: "",
-      idProjeto: "",
-    };
-  },
-  methods: {
-    // Método para finalizar a tarefa
-    finalizarTarefa(tempoDecorrido: number): void {
+
+  setup(props, { emit }) {
+    const store = useStore(key);
+    const descricao = ref("");
+    const idProjeto = ref("");
+
+    // Obtém a lista de projetos do estado da store
+    const projetos = computed(() => store.state.projeto.projetos);
+
+    // Função para finalizar a tarefa
+    const finalizarTarefa = (tempoDecorrido: number): void => {
       // Emite o evento aoSalvarTarefa com a descrição e a duração da tarefa
-      this.$emit("aoSalvarTarefa", {
-        descricao: this.descricao,
+      emit("aoSalvarTarefa", {
+        descricao: descricao.value,
         duracaoEmSegundos: tempoDecorrido,
-        projeto: this.projetos.find(projeto => projeto.id == this.idProjeto),
+        projeto: projetos.value.find(
+          (projeto) => projeto.id === idProjeto.value
+        ),
       });
 
       // Limpa o campo de descrição da tarefa após salvar
-      this.descricao = "";
-    },
-  },
-  setup() {
-    const store = useStore(key);
+      descricao.value = "";
+    };
+
     return {
-      projetos: computed(() => store.state.projeto.projetos),
+      descricao,
+      idProjeto,
+      projetos,
+      finalizarTarefa,
     };
   },
 });
