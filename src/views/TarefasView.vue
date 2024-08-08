@@ -3,7 +3,7 @@
   <div class="lista">
     <TarefaComp
       @tarefaClicada="tarefaSelecionada"
-      v-for="(tarefa, index) in tarefas"
+      v-for="(tarefa, index) in listaTarefas"
       :key="index"
       :tarefa="tarefa"
     />
@@ -35,7 +35,9 @@
         </section>
         <footer class="modal-card-foot">
           <div class="buttons">
-            <button class="button is-success">Salvar Alterações</button>
+            <button class="button is-success" @click="alterarTarefa">
+              Salvar Alterações
+            </button>
             <button class="button" @click="fecharModal">Cancelar</button>
           </div>
         </footer>
@@ -63,12 +65,12 @@ export default defineComponent({
   data() {
     return {
       isactive: "",
-      tarefaEspecifica: {} as ITarefa,
+      tarefaEspecifica: null as ITarefa | null,
     };
   },
   computed: {
     listaEstaVazia(): boolean {
-      return this.tarefas.length === 0;
+      return this.listaTarefas ? this.listaTarefas.length === 0 : true;
     },
   },
   methods: {
@@ -81,6 +83,13 @@ export default defineComponent({
     },
     fecharModal() {
       this.isactive = "";
+      this.tarefaEspecifica = null;
+    },
+    alterarTarefa() {
+      if (this.tarefaEspecifica) {
+        this.store.dispatch("ALTERAR_TAREFA", this.tarefaEspecifica)
+          .then(() => this.fecharModal());
+      }
     },
   },
   setup() {
@@ -88,7 +97,7 @@ export default defineComponent({
     store.dispatch("OBTER_TAREFAS");
     store.dispatch("OBTER_PROJETOS");
     return {
-      tarefas: computed(() => store.state.tarefas),
+      listaTarefas: computed(() => store.state.tarefa.tarefas),
       store,
     };
   },

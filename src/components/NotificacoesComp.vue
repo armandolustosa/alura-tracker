@@ -33,7 +33,7 @@ export default defineComponent({
     const store = useStore(key);
 
     return {
-      notificacoes: computed(() => store.state.notificacoes),
+      notificacoes: computed(() => store.state.tarefa.notificacoes),
     };
   },
 });
