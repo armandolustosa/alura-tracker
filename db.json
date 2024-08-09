@@ -13,7 +13,7 @@
     {
       "id": "1",
       "duracaoEmSegundos": 120,
-      "descricao": "Configurações",
+      "descricao": "Configurações Gerais",
       "projeto": {
         "id": 1,
         "nome": "Alura Vue.js"
